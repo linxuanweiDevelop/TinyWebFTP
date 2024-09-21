@@ -5,7 +5,13 @@
   tr td{
     border-bottom: 5px solid #DFD;
   }
-</style 
+</style>
+
+<h2>Upload File:</h2>
+<form method="post" action="/upload" enctype="multipart/form-data">
+  <input type="file" name="file" multiple>
+  <button type="submit">Upload</button>
+</form>
  
 <h1>Files List:</h1>
 <table>
@@ -22,9 +28,3 @@
 
   <% } %>
 </table>
- 
-<h2>Upload File:</h2>
-<form method="post" action="/upload" enctype="multipart/form-data">
-  <input type="file" name="file" multiple>
-  <button type="submit">Upload</button>
-</form>

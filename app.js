@@ -57,7 +57,10 @@ app.get('/delete/:filename', (req, res)=>{
 app.get('/', (req, res) => {
   const filesPath = StoragePool;
   const data = fs.readdirSync(filesPath);
-  res.render('index', { files: data });
+
+  res.render('index', {
+    files: data
+  });
 });
 
 //設置模板引擎和模板文件夾位置
