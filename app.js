@@ -34,7 +34,7 @@ app.get('/preview/:filename', (req, res) => {
 });
 
 //上傳文件的路由
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/upload', upload.array('file'), (req, res) => {
   res.redirect('/');
 });
 
