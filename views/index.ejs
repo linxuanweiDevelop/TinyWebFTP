@@ -1,0 +1,30 @@
+<meta charset="UTF-8">
+<title>Tiny Web NAS</title>
+
+<style>
+  tr td{
+    border-bottom: 5px solid #DFD;
+  }
+</style 
+ 
+<h1>Files List:</h1>
+<table>
+  <tr>
+    <td>檔案</td>
+    <td>操作</td>
+  </tr>
+  <% for (let i = 0; i < files.length; i++) { %>
+    <tr>
+      <td><a href="/download/<%= files[i] %>"><%= files[i] %></a></td>
+      <td><a href="/preview/<%= files[i] %>" target="_blank">   預覽   </a><a href="/delete/<%= files[i] %>">   刪除   </a></td>
+    </tr>
+
+
+  <% } %>
+</table>
+ 
+<h2>Upload File:</h2>
+<form method="post" action="/upload" enctype="multipart/form-data">
+  <input type="file" name="file">
+  <button type="submit">Upload</button>
+</form>
