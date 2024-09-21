@@ -5,7 +5,7 @@ const fs = require('fs');
 const ejs = require('ejs');
 const app = express();
 
-const StoragePool = "/MountPoint/mainDisk/TinyWebFTP/uploadStorage/";
+const StoragePool = __dirname + "/uploadStorage/";
 
 //設置靜態資源路由
 app.use(express.static(__dirname + '/public'));
