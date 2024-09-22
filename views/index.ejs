@@ -9,13 +9,17 @@
 
 <script>
   let fileList = []
+  let checkStatus = false
+
   function ListFiles(event){
-    const fileName = event.target.offsetParent.nextElementSibling.firstElementChild.innerHTML
+    const fileName = event.target.parentNode.parentNode.children[1].firstElementChild.innerHTML
+
     if(event.target.checked){
-      fileList.push(fileName)
+      if(!fileList.includes(fileName)) fileList.push(fileName)
     }else{
-      fileList.pop(fileName)
+      fileList.splice(fileList.indexOf(fileName), 1)
     }
+
   }
   
   function HandleMultiDownload(){
@@ -24,6 +28,7 @@
     const Operater = document.createElement("a")
     Operater.href = "/download?fileArrStr=" + JSON.stringify(fileList)
     Operater.click()
+
   }
   
   function HandleMultiDel(){
@@ -32,20 +37,22 @@
     const Operater = document.createElement("a")
     Operater.href = "/delete?fileArrStr=" + JSON.stringify(fileList)
     Operater.click()
+
   }
 
   function CheckSwitchAll(){
     const indepRowArr = document.getElementsByClassName("indepRow")
-
+    if(indepRowArr.length < 1) return
+    
+    let next = !checkStatus
+    if(fileList.length < 1) next = true
+    
     for (let i = 0; i < indepRowArr.length; i++) {
       const checkBox = indepRowArr[i].firstElementChild.firstElementChild
       const fileName = indepRowArr[i].children[1].firstElementChild.innerHTML
-      
-      const previous = checkBox.checked
-      const next = !previous
 
       if(next){
-        fileList.push(fileName)
+        if(!fileList.includes(fileName)) fileList.push(fileName)
         checkBox.checked = next
       }
       else{
@@ -54,8 +61,11 @@
       }
 
     }
+    
+    checkStatus = next
 
   }
+
 </script>
 
 <h2>上傳檔案:</h2>

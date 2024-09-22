@@ -1,12 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const multer = require('multer')
-const fs = require('fs')
 const ejs = require('ejs')
-var zip = require('express-zip');
 const app = express()
 
-const StoragePool = __dirname + "/uploadStorage/"
+const fs = require('fs')
+var zip = require('express-zip');
+require('dotenv').config()
+
+const StoragePool = process.env.WebDrive_AnonymousBucket_Path
 
 //設置靜態資源路由
 app.use(express.static(__dirname + '/public'))
@@ -94,8 +96,28 @@ app.get('/', (req, res) => {
 //設置模板引擎和模板文件夾位置
 app.set('views', __dirname + '/views')
 app.set('view engine', 'ejs')
-  
-//啟動服務
-app.listen(47715, "::", () => {
-  console.log('TinyFTPWeb listening on port 47715!')
-})
+
+const serverPort = process.env.serverPort
+if(!(process.env.useTLS === "true")){
+  //啟動服務
+  app.listen(serverPort, () => {
+    console.log('KiHackerTech listening on port ' + serverPort + '!')
+  })
+
+}else{
+  let keyPath = process.env.keyPath
+  let certPath = process.env.certPath
+  let hskey = fs.readFileSync(keyPath)
+  let hscert = fs.readFileSync(certPath)
+
+  let TinyWebNAS = https.createServer({
+    key: hskey,
+    cert: hscert
+  }, app)
+
+  // 啟動服務
+  TinyWebNAS.listen(serverPort, () => {
+    console.log('TinyWebNAS with TLS listening on port ' + serverPort + '!')
+  })
+
+}
