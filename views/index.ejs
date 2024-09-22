@@ -19,12 +19,16 @@
   }
   
   function HandleMultiDownload(){
+    if(fileList.length < 1) return
+
     const Operater = document.createElement("a")
     Operater.href = "/download?fileArrStr=" + JSON.stringify(fileList)
     Operater.click()
   }
   
   function HandleMultiDel(){
+    if(fileList.length < 1) return
+    
     const Operater = document.createElement("a")
     Operater.href = "/delete?fileArrStr=" + JSON.stringify(fileList)
     Operater.click()
@@ -35,7 +39,20 @@
 
     for (let i = 0; i < indepRowArr.length; i++) {
       const checkBox = indepRowArr[i].firstElementChild.firstElementChild
-      checkBox.checked = !checkBox.checked
+      const fileName = indepRowArr[i].children[1].firstElementChild.innerHTML
+      
+      const previous = checkBox.checked
+      const next = !previous
+
+      if(next){
+        fileList.push(fileName)
+        checkBox.checked = next
+      }
+      else{
+        fileList = []
+        checkBox.checked = next
+      }
+
     }
 
   }
